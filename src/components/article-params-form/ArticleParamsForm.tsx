@@ -106,10 +106,11 @@ export const ArticleParamsForm = (): JSX.Element => {
 						onChange={handleOnChange('contentWidth')}
 					/>
 
-					<div className={styles.bottomContainer}>
-						<Button title='Сбросить' type='reset' onClick={resetStyles} />
-						<Button title='Применить' type='submit' />
-					</div>
+                  <div className={styles.bottomContainer}>
+	                <Button title='Сбросить' type='clear' htmlType='reset' onClick={resetStyles} />
+	                <Button title='Применить' type='apply' htmlType='submit' />
+                  </div>
+
 				</form>
 			</aside>
 		</>
