@@ -1,31 +1,38 @@
 import { useEffect } from 'react';
 
-type UseOutsideClickClose = {
+type TUseClose = {
 	isOpen: boolean;
-	onChange: (newValue: boolean) => void;
-	onClose?: () => void;
-	rootRef: React.RefObject<HTMLDivElement>;
+	onClose: () => void;
+	rootRef: React.RefObject<HTMLElement>;
 };
 
-export const useOutsideClickClose = ({
-	isOpen,
-	rootRef,
-	onClose,
-	onChange,
-}: UseOutsideClickClose) => {
+export function useClose({ isOpen, onClose, rootRef }: TUseClose) {
 	useEffect(() => {
-		const handleClick = (event: MouseEvent) => {
-			const { target } = event;
-			if (target instanceof Node && !rootRef.current?.contains(target)) {
-				isOpen && onClose?.();
-				onChange?.(false);
-			}
-		};
+		if (!isOpen) return;
 
-		window.addEventListener('mousedown', handleClick);
+		function handleClickOutside(event: MouseEvent) {
+			const { target } = event;
+			const isOutsideClick =
+				target instanceof Node &&
+				rootRef.current &&
+				!rootRef.current.contains(target);
+			if (isOutsideClick) {
+				onClose();
+			}
+		}
+
+		function handleEscape(event: KeyboardEvent) {
+			if (event.key === 'Escape') {
+				onClose();
+			}
+		}
+
+		document.addEventListener('keydown', handleEscape);
+		document.addEventListener('mousedown', handleClickOutside);
 
 		return () => {
-			window.removeEventListener('mousedown', handleClick);
+			document.removeEventListener('keydown', handleEscape);
+			document.removeEventListener('mousedown', handleClickOutside);
 		};
-	}, [onClose, onChange, isOpen]);
-};
+	}, [isOpen, onClose, rootRef]);
+}

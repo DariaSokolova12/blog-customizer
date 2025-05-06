@@ -1,30 +1,38 @@
+import clsx from 'clsx';
 import arrow from 'src/images/arrow.svg';
 
 import styles from './ArrowButton.module.scss';
-import clsx from 'clsx';
 
-/** Функция для обработки открытия/закрытия формы */
 export type OnClick = () => void;
 
-type ArrowButtonProps = {
-	isOpen: boolean;
+export type ArrowButtonProps = {
 	onClick: OnClick;
+	state: boolean;
 };
 
-export const ArrowButton = ({ isOpen, onClick }: ArrowButtonProps) => {
-	return (
-		/* Не забываем указаывать role и aria-label атрибуты для интерактивных элементов */
+/**
+ * Кнопка со стрелкой для открытия/закрытия панели
+ */
+export const ArrowButton = ({ onClick, state }: ArrowButtonProps): JSX.Element => {
+	const containerClass = clsx(styles.container, {
+		[styles.container_open]: state,
+	});
+
+	const arrowClass = clsx(styles.arrow, {
+		[styles.arrow_open]: state,
+	});
+
+	const ButtonWrapper = () => (
 		<div
+			onClick={onClick}
 			role='button'
-			aria-label='Открыть/Закрыть форму параметров статьи'
+			aria-label='Открыть или закрыть панель'
 			tabIndex={0}
-			className={clsx(styles.container, { [styles.container_open]: isOpen })}
-			onClick={onClick}>
-			<img
-				src={arrow}
-				alt='иконка стрелочки'
-				className={clsx(styles.arrow, { [styles.arrow_open]: isOpen })}
-			/>
+			className={containerClass}
+		>
+			<img src={arrow} alt='Иконка стрелки' className={arrowClass} />
 		</div>
 	);
+
+	return <ButtonWrapper />;
 };
