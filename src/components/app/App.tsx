@@ -1,16 +1,14 @@
 import React from 'react';
 import { Article } from 'components/article';
 import { ArticleParamsForm } from 'components/article-params-form';
-import { useArticle } from 'components/article/Article.context';
+import { ArticleProvider, useArticle } from 'components/article/Article.context';
 
 import 'src/styles/index.scss';
 import styles from 'src/styles/index.module.scss';
 
-
-export const App = (): JSX.Element => {
+const AppContent = () => {
 	const { appliedStyles } = useArticle();
 
-	
 	const customStyles = {
 		'--font-family': appliedStyles.fontFamilyOption.value,
 		'--font-size': appliedStyles.fontSizeOption.value,
@@ -18,8 +16,6 @@ export const App = (): JSX.Element => {
 		'--container-width': appliedStyles.contentWidth.value,
 		'--bg-color': appliedStyles.backgroundColor.value,
 	} as React.CSSProperties;
-
-	console.log('Custom styles:', customStyles);
 
 	return (
 		<div className={styles.main} style={customStyles}>
@@ -30,3 +26,9 @@ export const App = (): JSX.Element => {
 		</div>
 	);
 };
+
+export const App = (): JSX.Element => (
+	<ArticleProvider>
+		<AppContent />
+	</ArticleProvider>
+);

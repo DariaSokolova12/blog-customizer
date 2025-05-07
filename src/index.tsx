@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { Article } from './components/article/Article';
 import { ArticleParamsForm } from './components/article-params-form/ArticleParamsForm';
 import { defaultArticleState } from './constants/articleProps';
+import { ArticleProvider } from './components/article/Article.context'; // добавь импорт
 
 import './styles/index.scss';
 import styles from './styles/index.module.scss';
@@ -33,6 +34,9 @@ const App = () => {
 
 root.render(
 	<StrictMode>
-		<App />
+		<ArticleProvider>
+			<App />
+		</ArticleProvider>
 	</StrictMode>
 );
+
