@@ -6,7 +6,7 @@ import { ArticleProvider, useArticle } from 'components/article/Article.context'
 import 'src/styles/index.scss';
 import styles from 'src/styles/index.module.scss';
 
-const AppContent = () => {
+export const AppContent = () => {
 	const { appliedStyles } = useArticle();
 
 	const customStyles = {
@@ -27,8 +27,4 @@ const AppContent = () => {
 	);
 };
 
-export const App = (): JSX.Element => (
-	<ArticleProvider>
-		<AppContent />
-	</ArticleProvider>
-);
+export default AppContent;

@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import { StrictMode, CSSProperties } from 'react';
-import clsx from 'clsx';
+import { AppContent } from './components/app';
 
 import { Article } from './components/article/Article';
 import { ArticleParamsForm } from './components/article-params-form/ArticleParamsForm';
@@ -8,34 +8,16 @@ import { defaultArticleState } from './constants/articleProps';
 import { ArticleProvider } from './components/article/Article.context'; // добавь импорт
 
 import './styles/index.scss';
-import styles from './styles/index.module.scss';
 
+// Инициализация корневого элемента для рендеринга React
 const domNode = document.getElementById('root') as HTMLDivElement;
 const root = createRoot(domNode);
 
-const App = () => {
-	return (
-		<main
-			className={clsx(styles.main)}
-			style={
-				{
-					'--font-family': defaultArticleState.fontFamilyOption.value,
-					'--font-size': defaultArticleState.fontSizeOption.value,
-					'--font-color': defaultArticleState.fontColor.value,
-					'--container-width': defaultArticleState.contentWidth.value,
-					'--bg-color': defaultArticleState.backgroundColor.value,
-				} as CSSProperties
-			}>
-			<ArticleParamsForm />
-			<Article />
-		</main>
-	);
-};
-
+// Рендеринг корневого компонента в StrictMode с использованием ArticleProvider
 root.render(
 	<StrictMode>
 		<ArticleProvider>
-			<App />
+			<AppContent />
 		</ArticleProvider>
 	</StrictMode>
 );
